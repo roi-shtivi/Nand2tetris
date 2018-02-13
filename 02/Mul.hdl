@@ -1,0 +1,72 @@
+
+CHIP Mul{
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+	//Number to add if the bit is 1
+	And16(a=a, b=true, out=multBy1);
+	//bit 0
+	Mux16(a=false, b=multBy1, sel=b[0], out=toadd0);
+	Add16(a=false, b=toadd0, out=afterAdd0);
+	// bit 1
+	ShiftLeft(in=multBy1, out=shifted1);
+	Mux16(a=false, b=shifted1, sel=b[1], out=toadd1);
+	Add16(a=afterAdd0, b=toadd1, out=afterAdd1);
+	// bit 2
+	ShiftLeft(in=shifted1, out=shifted2);
+	Mux16(a=false, b=shifted2, sel=b[2], out=toadd2);
+	Add16(a=afterAdd1, b=toadd2, out=afterAdd2);
+	// bit 3
+	ShiftLeft(in=shifted2, out=shifted3);
+	Mux16(a=false, b=shifted3, sel=b[3], out=toadd3);
+	Add16(a=afterAdd2, b=toadd3, out=afterAdd3);
+	// bit 4
+	ShiftLeft(in=shifted3, out=shifted4);
+	Mux16(a=false, b=shifted4, sel=b[4], out=toadd4);
+	Add16(a=afterAdd3, b=toadd4, out=afterAdd4);
+	// bit 5
+	ShiftLeft(in=shifted4, out=shifted5);
+	Mux16(a=false, b=shifted5, sel=b[5], out=toadd5);
+	Add16(a=afterAdd4, b=toadd5, out=afterAdd5);
+	// bit 6
+	ShiftLeft(in=shifted5, out=shifted6);
+	Mux16(a=false, b=shifted6, sel=b[6], out=toadd6);
+	Add16(a=afterAdd5, b=toadd6, out=afterAdd6);
+	// bit 7
+	ShiftLeft(in=shifted6, out=shifted7);
+	Mux16(a=false, b=shifted7, sel=b[7], out=toadd7);
+	Add16(a=afterAdd6, b=toadd7, out=afterAdd7);
+	// bit 8
+	ShiftLeft(in=shifted7, out=shifted8);
+	Mux16(a=false, b=shifted8, sel=b[8], out=toadd8);
+	Add16(a=afterAdd7, b=toadd8, out=afterAdd8);
+	// bit 9
+	ShiftLeft(in=shifted8, out=shifted9);
+	Mux16(a=false, b=shifted9, sel=b[9], out=toadd9);
+	Add16(a=afterAdd8, b=toadd9, out=afterAdd9);
+	// bit 10
+	ShiftLeft(in=shifted9, out=shifted10);
+	Mux16(a=false, b=shifted10, sel=b[10], out=toadd10);
+	Add16(a=afterAdd9, b=toadd10, out=afterAdd10);
+	// bit 11
+	ShiftLeft(in=shifted10, out=shifted11);
+	Mux16(a=false, b=shifted11, sel=b[11], out=toadd11);
+	Add16(a=afterAdd10, b=toadd11, out=afterAdd11);
+	// bit 12
+	ShiftLeft(in=shifted11, out=shifted12);
+	Mux16(a=false, b=shifted12, sel=b[12], out=toadd12);
+	Add16(a=afterAdd11, b=toadd12, out=afterAdd12);
+	// bit 13
+	ShiftLeft(in=shifted12, out=shifted13);
+	Mux16(a=false, b=shifted13, sel=b[13], out=toadd13);
+	Add16(a=afterAdd12, b=toadd13, out=afterAdd13);
+	// bit 14
+	ShiftLeft(in=shifted13, out=shifted14);
+	Mux16(a=false, b=shifted14, sel=b[14], out=toadd14);
+	Add16(a=afterAdd13, b=toadd14, out=afterAdd14);
+	// bit 15
+	ShiftLeft(in=shifted14, out=shifted15);
+	Mux16(a=false, b=shifted15, sel=b[15], out=toadd15);
+	Add16(a=afterAdd14, b=toadd15, out=out);
+}

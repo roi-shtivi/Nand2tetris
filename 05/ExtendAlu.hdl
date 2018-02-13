@@ -1,0 +1,48 @@
+/**
+* The input of the extends ALU is instruction[9] and x[16],y[16].
+* the output is define as follows:
+* If instruction[7..8] equals 1 the the output is exactly as the ALU.
+* Where instruction[5]=zx,instruction[4]=nx,...,instruction[0]=no.
+* If instruction[7] equals 0 the output will be x*y and disregard the rest 
+* of the instruction.
+*
+* If instruction[8] equals 0 the output will be shift.
+* Then, if instruction[4] equals 0 it will return shift of y otherwise shift 
+* of x, moreover if instruction[5] equals 0 it will return shift right 
+* otherwise shift left.
+**/
+CHIP ExtendAlu{
+     IN x[16],y[16],instruction[9];
+     OUT out[16],zr,ng;
+     
+     PARTS:
+     
+	 
+	 ALU(x=x, y=y, zx=instruction[5], nx=instruction[4], zy=instruction[3], ny=instruction[2], f=instruction[1],
+	 no=instruction[0], out=regALUOut);
+	 Mul(a=x, b=y, out=mulOut);
+	 
+	//calculate the shiftes
+	ShiftLeft(in=x, out=shiftLeftX);
+	ShiftLeft(in=y, out=shiftLeftY);
+	ShiftRight(in=x, out=shiftRighttX);
+	ShiftRight(in=y, out=shiftRightY);
+	Mux4Way16(a=shiftRightY, b=shiftRighttX, c=shiftLeftY, d=shiftLeftX, sel=instruction[4..5], out=shiftALUOut);
+	
+	//If instruction[7..8] equals 1
+	And(a=instruction[7], b=instruction[8], out=regALU);
+	
+	//If instruction[7] equals 0 - mulALU is false
+	Or(a=false, b=instruction[7], out=mulALU);
+	
+	//If instruction[8] equals 0 - shiftALU is false
+	Or(a=false, b=instruction[8], out=shiftALU);
+	
+	Mux16(a=mulOut, b=regALUOut, sel=regALU, out=tempOut);
+	Mux16(a=shiftALUOut, b=tempOut, sel=shiftALU, out=out, out[0..7]=first, out[8..15]=last, out[15]=ng);
+	//zr
+	Or8Way(in=first, out=half1Out);
+	Or8Way(in=last, out=half2Out);
+	Or(a=half1Out, b=half2Out, out=zrSelect);
+	Mux(a=true, b=false, sel=zrSelect, out=zr);
+}

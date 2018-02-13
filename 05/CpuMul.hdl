@@ -1,0 +1,62 @@
+/**
+* This chip is an extension of the book CPU by using the extended ALU.
+* More specificly if instruction[15]==0 or (instruction[14] and instruction[13] equals 1)
+* the CpuMul behave exactly as the book CPU.
+* While if it is C instruction and instruction[13] == 0 the output will be D*A/M 
+* (according to instruction[12]).
+* Moreover, if it is c instruction and instruction[14] == 0 it will behave as follows:
+*
+* instruction:  | 12 | 11 | 10 |
+* _____________________________
+* shift left D  | 0  | 1  | 1  |
+* shift left A  | 0  | 1  | 0  |
+* shift left M  | 1  | 1  | 0  |
+* shift right D | 0  | 0  | 1  |
+* shift right A | 0  | 0  | 0  |
+* shift right M | 1  | 0  | 0  |
+**/
+
+CHIP CpuMul{
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset=1) or continue executing
+                         // the current program (reset=0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write into M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+	Mux16(a[0..4]=false,a[5]=true,a[6..9]=false, a[10..11]=true, a[12..15]=false, b=instruction, sel=instruction[15],
+	out[0..2]=jumps, out[3]=writeM, out[4]=d2, out[5]=d1,out[6]=c6, out[7]=c5, out[8]=c4, out[9]=c3, out[10]=c2,
+	out[11]=c1, out[12]=a, out[15]=i, out[6..14]=mulAluInstuction, out=newInstruction);
+	
+    Mux16(a=instruction, b=ALUout, sel=i, out=firstMux16Out);
+	ARegister(in=firstMux16Out, load=d1, out=aRegisterOut, out[0..14]=addressM);
+	DRegister(in=ALUout, load=d2,out=dRegisterOut);
+	Mux16(a=aRegisterOut, b=inM, sel=a, out=secondMux16Out);
+	ExtendAlu(x=dRegisterOut, y=secondMux16Out, instruction=mulAluInstuction, out=ALUout, out=outM, zr=zr, ng=ng);
+	
+	DMux8Way(in=true, sel=jumps,a=null, b=JGT, c=JEQ, d=JGE, e=JLT, f=JNE, g=JLE, h=JMP);
+	Not(in=ng, out=notNegative);
+	Not(in=zr, out=notZero);
+	Or(a=zr, b=ng, out=lessOrEqual);
+
+	
+	And(a=null,b=false, out=nullOut);
+	And(a=JGT,b=notZero,out=JGToutFirst);
+	And(a=JGToutFirst, b=notNegative,out=JGTout);
+	And(a=JEQ, b=zr, out=JEQout);
+	And(a=JGE, b=notNegative, out=JGEout);
+	And(a=JLT, b=ng, out=JLTout);
+	And(a=JNE, b=notZero, out=JNEout);
+	And(a=JLE, b=lessOrEqual, out=JLEout);
+	And(a=JMP, b=true, out=JMPout);
+	
+	Or8Way(in[0]=nullOut, in[1]=JGTout, in[2]=JEQout, in[3]=JGEout, in[4]=JLTout, in[5]=JNEout, in[6]=JLEout,
+	in[7]=JMPout, out=pcLoad);
+	PC(in=aRegisterOut, load=pcLoad, inc=true, reset=reset, out[0..14]=pc);
+}

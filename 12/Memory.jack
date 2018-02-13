@@ -1,0 +1,74 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * This library provides two services: direct access to the computer's main
+ * memory (RAM), and allocation and recycling of memory blocks. The Hack RAM
+ * consists of 32,768 words, each holding a 16-bit binary number.
+ */ 
+class Memory {
+	static Array heap;
+	
+    /** Initializes the class. */
+    function void init() {
+		let heap = 0;
+		let heap[2048] = -1;
+		let heap[2049] = 14335;
+		return;
+    }
+
+    /** Returns the RAM value at the given address. */
+    function int peek(int address) {
+		return heap[address];
+    }
+
+    /** Sets the RAM value at the given address to the given value. */
+    function void poke(int address, int value) {
+		let heap[address] = value;
+		return;
+    }
+
+    /** Finds an available RAM block of the given size and returns
+     *  a reference to its base address. */
+    function int alloc(int size) {
+		var int next;
+		var int block;		
+		var int lastSegment;
+		var int thisSegment;
+
+		
+		let lastSegment = 2049;
+		let thisSegment = 2049;
+		let next = 2048; 
+		let block = -1;
+		
+		while (~(heap[next] = -1) & ~(heap[thisSegment] - 2 > size)) { //the segment isnt the last one,
+			let lastSegment = thisSegment;
+			let thisSegment = heap[next];
+			let next = heap[next + 1];
+		}
+		if (~(next = -1) & ~(thisSegment - 3 < size )) {// the last segment in the linked list
+				let heap[thisSegment] = heap[thisSegment] - size - 1;
+				let block = thisSegment + heap[thisSegment];
+				let heap[block - 1] = size + 1;
+		}
+		if (~(next = -1) & (thisSegment - 3 < size )) { // in the middle of  the linked list
+			let heap[lastSegment + 1] = heap[thisSegment + 1];
+			let heap[thisSegment] = size + 1;
+			let block = thisSegment + 1;
+		}
+
+		return block;
+    }
+
+    /** De-allocates the given object (cast as an array) by making
+     *  it available for future allocations. */
+    function void deAlloc(Array o) {
+		let heap[o] = heap[o - 1];
+    	let heap[o + 1] = heap[2050];
+    	let heap[2050] = o;
+    	return;
+    }    
+}

@@ -1,0 +1,21 @@
+roi1255, danity
+===============================================================================
+Danit Yshaayahu, ID 312434269, danit.yshaayahu@mail.huji.ac.il 
+Roi Shtivi, ID 308192822, roi.shtivi@mail.huji.ac.il
+===============================================================================
+
+                           Project 05 - Computer Architecture
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+ExtendAlu.hdl - The ALU (Arithmetic Logic Unit) that can do multipliction and division.
+CpuMul.hdl - Extension of the book CPU by using the extended ALU
+Memory.hdl - The complete address space of the Hack computer's memory.
+CPU.hdl - The Hack CPU (Central Processing unit)
+Computer - The HACK computer, including CPU, ROM and RAM.
+
+Remarks
+-------

@@ -1,0 +1,24 @@
+roi1255, danity
+===============================================================================
+Danit Yshaayahu, ID 312434269, danit.yshaayahu@mail.huji.ac.il 
+Roi Shtivi, ID 308192822, roi.shtivi@mail.huji.ac.il
+===============================================================================
+
+                           Project 02 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+ShiftRight.hdl - A chip that devide 16-bit input value by 2.
+ShiftLeft.hdl - A chip that double 16-bit input value.
+Inc16.hdl - A chip that incrase the 16-bit input value by 1.
+HalfAdder.hdl - Add two bits inputs without keeping the carry.
+FullAdder.hdl - Add two bits inputs and return a result and a carry.
+ALU.hdl - A chip that doing arhitmetics action on two 16-bit inputs.
+Add16.hdl - Fully functing adder of two 16-bits input.
+Mul.hdl - Multipy two 16-bits input
+
+Remarks
+-------

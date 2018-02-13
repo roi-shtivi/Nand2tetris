@@ -1,0 +1,24 @@
+roi1255, danity
+===============================================================================
+Danit Yshaayahu, ID 312434269, danit.yshaayahu@mail.huji.ac.il 
+Roi Shtivi, ID 308192822, roi.shtivi@mail.huji.ac.il
+===============================================================================
+
+                           Project 03 - Sequential Chips
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Bit.hdl - 1-bit register
+Register.hdl -16-bit register
+RAM8.hdl - 16-bit / 8-register memory
+RAM64.hdl - 16-bit / 64-register memory
+RAM512.hdl - 16-bit / 512-register memory
+RAM4K.hdl - 16-bit / 4096-register memory
+RAM16K.hdl - 16-bit / 16384-register memory
+PC.hdl	16-bit program counter
+
+Remarks
+-------

@@ -1,0 +1,32 @@
+roi1255, danity
+===============================================================================
+Danit Yshaayahu, ID 312434269, danit.yshaayahu@mail.huji.ac.il 
+Roi Shtivi, ID 308192822, roi.shtivi@mail.huji.ac.il
+===============================================================================
+
+                           Project 01 - An HDL File
+                           ----------------------- 
+  
+
+Submitted Files
+---------------
+README - This file.
+Not.hdl - Not logic gate chip.
+And.hdl - And logic gate chip.
+Or.hdl - Or logic gate chip.
+Xor.hdl - Xor logic gate chip.
+Mux.hdl - Mux logic gate chip.
+DMux.hdl - DMux logic gate chip.
+Not16.hdl - 16-bit Not logic gate chip.
+And16.hdl - 16-bit DMux logic gate chip.
+Or16.hdl - 16-bit logic gate chip.
+Mux16.hdl - 16-bit logic gate chip.
+Or8Way.hdl - 8-bit logic gate chip.
+Mux4Way16.hdl - 16-bit Mux logic gate chip with 4 Select inputs.
+Mux8Way16.hdl - 16-bit DMux logic gate chip with 4 Select inputs.
+DMux4Way.hdl - DMux logic gate chip with 4 Select inputs.
+DMux8Way.hdl - DMux logic gate chip with 8 Select inputs.
+
+Remarks
+-------
+* All of this chips was created by the atomic chip NAND.
